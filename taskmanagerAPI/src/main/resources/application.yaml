@@ -1,0 +1,12 @@
+spring:
+  config:
+    import: optional:application-local.yaml
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/taskdb
+    username: ${DB_USER:default}
+    password: ${DB_PASSWORD:default}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
