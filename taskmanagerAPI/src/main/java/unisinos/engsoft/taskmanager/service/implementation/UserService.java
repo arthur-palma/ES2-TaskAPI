@@ -38,10 +38,7 @@ public class UserService implements IUserService {
 
         userRepository.save(user);
 
-        UserDTO userDTO = new UserDTO();
-        userDTO.setId(user.getId());
-        userDTO.setFirstName(user.getFirstName());
-
+        UserDTO userDTO = new UserDTO(user.getId(),user.getFirstName()+" "+user.getLastName());
 
         return ResponseEntity.ok(userDTO);
     }
