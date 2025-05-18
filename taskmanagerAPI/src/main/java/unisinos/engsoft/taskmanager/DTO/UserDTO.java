@@ -12,6 +12,6 @@ public class UserDTO {
 
     public int id;
 
-    public String firstName;
+    public String name;
 
 }
