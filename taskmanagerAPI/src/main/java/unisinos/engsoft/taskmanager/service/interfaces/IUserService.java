@@ -1,4 +1,4 @@
-package unisinos.engsoft.taskmanager.service.implementation;
+package unisinos.engsoft.taskmanager.service.interfaces;
 
 import org.springframework.http.ResponseEntity;
 import unisinos.engsoft.taskmanager.DTO.CreateUserRequest;

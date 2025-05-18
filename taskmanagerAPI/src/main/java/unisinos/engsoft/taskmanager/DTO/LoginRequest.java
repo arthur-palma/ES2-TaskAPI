@@ -1,6 +1,5 @@
 package unisinos.engsoft.taskmanager.DTO;
 
-
 import lombok.*;
 
 @Getter
@@ -8,10 +7,11 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserDTO {
+public class LoginRequest {
 
-    public int id;
+    private String email;
 
-    public String firstName;
+    private String password;
+
 
 }
