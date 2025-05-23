@@ -29,8 +29,8 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDTO> putUser(@RequestBody PutUserRequest request){
-        return iUserService.putUser(request);
+    public ResponseEntity<UserDTO> putUser(@RequestBody PutUserRequest request, @PathVariable int id){
+        return iUserService.putUser(request, id);
     }
 
     @DeleteMapping("/{id}")

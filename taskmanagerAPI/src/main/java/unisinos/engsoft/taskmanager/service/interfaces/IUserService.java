@@ -9,7 +9,7 @@ public interface IUserService {
     ResponseEntity<UserDTO> createUser(CreateUserRequest request);
 
     ResponseEntity<UserDTO> getUser(int id);
-    ResponseEntity<UserDTO> putUser(PutUserRequest request);
+    ResponseEntity<UserDTO> putUser(PutUserRequest request, int id);
     ResponseEntity<Void> deleteUser(int id);
 
 }
