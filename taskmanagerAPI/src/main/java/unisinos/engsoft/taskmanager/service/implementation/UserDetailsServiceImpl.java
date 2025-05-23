@@ -18,4 +18,3 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado com email: " + email));
     }
 }
-

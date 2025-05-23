@@ -1,4 +1,4 @@
 spring:
   datasource:
     username: postgres
-    password: postgres
+    password: unisinos123
