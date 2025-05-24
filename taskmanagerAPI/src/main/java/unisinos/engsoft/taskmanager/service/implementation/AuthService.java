@@ -4,11 +4,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import unisinos.engsoft.taskmanager.DTO.LoginRequest;
 import unisinos.engsoft.taskmanager.DTO.UserDTO;
 import unisinos.engsoft.taskmanager.config.JwtUtil;
@@ -19,6 +19,7 @@ import unisinos.engsoft.taskmanager.service.interfaces.IPasswordEncryptionServic
 import unisinos.engsoft.taskmanager.service.interfaces.IUserValidation;
 
 
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 import static unisinos.engsoft.taskmanager.mapper.UserMapper.toDTO;
 
 @Service
@@ -34,7 +35,7 @@ public class AuthService implements IAuthService {
         Users user = userValidation.validateUserByEmail(loginRequest.getEmail());
 
         if (!passwordEncryptionService.matches(loginRequest.getPassword(), user.getPassword())) {
-            throw new BadCredentialsException("Invalid credentials");
+            throw new ResponseStatusException(UNAUTHORIZED,"Invalid credentials");
         }
 
         String token = jwtUtil.generateToken(user.getEmail());
