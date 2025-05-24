@@ -30,7 +30,7 @@ public class Users implements UserDetails
 
     private String password;
 
-    private boolean active;
+    private boolean active = true;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Task> tasks;

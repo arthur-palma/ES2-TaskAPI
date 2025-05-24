@@ -6,8 +6,8 @@ import unisinos.engsoft.taskmanager.DTO.CreateTaskRequest;
 import unisinos.engsoft.taskmanager.DTO.TaskDTO;
 import unisinos.engsoft.taskmanager.model.Task;
 import unisinos.engsoft.taskmanager.repository.TaskRepository;
-import unisinos.engsoft.taskmanager.repository.UserRepository;
 import unisinos.engsoft.taskmanager.service.interfaces.ITaskService;
+import unisinos.engsoft.taskmanager.service.interfaces.IUserValidation;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,12 +17,11 @@ import java.util.stream.Collectors;
 public class TaskService implements ITaskService {
 
     private final TaskRepository taskRepository;
-    private final UserRepository userRepository;
+    private final IUserValidation userValidation;
 
     @Override
     public ResponseEntity<TaskDTO> createTask(CreateTaskRequest request) {
-        var user = userRepository.findById(request.getAssignedTo())
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        var user = userValidation.validateUserById(request.getAssignedTo());
 
         Task task = new Task();
         task.setTitle(request.getTitle());
@@ -87,8 +86,7 @@ public class TaskService implements ITaskService {
         Task task = taskRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Task não encontrada"));
 
-        var user = userRepository.findById(request.getAssignedTo())
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        var user = userValidation.validateUserById(request.getAssignedTo());
 
         task.setTitle(request.getTitle());
         task.setDescription(request.getDescription());
