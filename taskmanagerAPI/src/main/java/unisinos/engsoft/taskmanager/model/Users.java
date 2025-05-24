@@ -1,8 +1,6 @@
 package unisinos.engsoft.taskmanager.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,11 +21,19 @@ public class Users implements UserDetails
     @Id
     @GeneratedValue
     private int id;
+
     private String firstName;
+
     private String lastName;
+
     private String email;
+
     private String password;
+
     private boolean active;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Task> tasks;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

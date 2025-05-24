@@ -21,79 +21,71 @@ import static unisinos.engsoft.taskmanager.mapper.UserMapper.toDTO;
 @RequiredArgsConstructor
 public class UserService implements IUserService {
 
-  private final UserRepository userRepository;
+    private final UserRepository userRepository;
 
-  private final IPasswordEncryptionService passwordEncryptionService;
+    private final IPasswordEncryptionService passwordEncryptionService;
 
-  @Override
-  public ResponseEntity<UserDTO> createUser(CreateUserRequest request) {
-    if (userRepository.existsByEmail(request.getEmail())) {
-      throw new ResponseStatusException(HttpStatus.CONFLICT, "email already in use");
+    @Override
+    public ResponseEntity<UserDTO> createUser(CreateUserRequest request) {
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "email already in use");
+        }
+
+        Users user = new Users();
+        user.setEmail(request.getEmail());
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setPassword(passwordEncryptionService.encrypt(request.getPassword()));
+
+        userRepository.save(user);
+
+        return ResponseEntity.ok(toDTO(user));
     }
 
-    Users user = new Users();
-    user.setEmail(request.getEmail());
-    user.setFirstName(request.getFirstName());
-    user.setLastName(request.getLastName());
-    user.setPassword(passwordEncryptionService.encrypt(request.getPassword()));
+    @Override
+    public ResponseEntity<UserDTO> getUserById(int id) {
+        Optional<Users> optUser = userRepository.getUsersById(id);
 
-    userRepository.save(user);
+        if (optUser.isEmpty()) {
+            throw new ResponseStatusException(NOT_FOUND, "User not found");
+        }
 
-    UserDTO userDTO = new UserDTO(
-      user.getId(),
-      user.getFirstName() + " " + user.getLastName()
-    );
-
-    return ResponseEntity.ok(userDTO);
-  }
-
-  @Override
-  public ResponseEntity<UserDTO> getUserById(int id) {
-
-    Optional<Users> optUser = userRepository.getUsersById(id);
-
-    if (optUser.isEmpty()) {
-      throw new ResponseStatusException(NOT_FOUND, "User not found");
+        return ResponseEntity.ok(toDTO(optUser.get()));
     }
 
-    return ResponseEntity.ok(toDTO(optUser.get()));
-  }
 
+    @Override
+    public ResponseEntity<UserDTO> putUser(PutUserRequest request, int id) {
+        Optional<Users> verUser = userRepository.findById(id);
 
-  @Override
-  public ResponseEntity<UserDTO> putUser(PutUserRequest request, int id) {
-    Optional<Users> verUser = userRepository.findById(id);
+        if (verUser.isEmpty()) {
+            throw new ResponseStatusException(NOT_FOUND, "User not found");
+        }
 
-    if (verUser.isEmpty()) {
-      throw new ResponseStatusException(NOT_FOUND, "User not found");
+        Users user = verUser.get();
+
+        user.setEmail(request.getEmail());
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setPassword(passwordEncryptionService.encrypt(request.getPassword()));
+
+        userRepository.save(user);
+
+        return ResponseEntity.ok(toDTO(user));
     }
 
-      Users user = verUser.get();
+    @Override
+    public ResponseEntity<Void> deleteUser(int id){
+        Optional<Users> userOpt = userRepository.findById(id);
 
-      user.setEmail(request.getEmail());
-      user.setFirstName(request.getFirstName());
-      user.setLastName(request.getLastName());
-      user.setPassword(
-        passwordEncryptionService.encrypt(request.getPassword())
-      );
+        if (userOpt.isEmpty()) {
+            throw new ResponseStatusException(NOT_FOUND, "User not found");
+        }
 
-      userRepository.save(user);
+        Users user = userOpt.get();
+        user.setActive(false);
+        userRepository.save(user);
 
-      return ResponseEntity.ok(toDTO(user));
-  }
-
-  @Override
-  public ResponseEntity<Void> deleteUser(int id) {
-    Optional<Users> userOpt = userRepository.findById(id);
-
-    if (userOpt.isEmpty()) {
-      throw new ResponseStatusException(NOT_FOUND, "User not found");
+        return ResponseEntity.noContent().build();
     }
-
-    Users user = userOpt.get();
-    user.setActive(false);
-    userRepository.save(user);
-
-    return ResponseEntity.noContent().build();
-  }
 }

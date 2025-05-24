@@ -9,7 +9,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import unisinos.engsoft.taskmanager.DTO.LoginRequest;
@@ -21,6 +20,8 @@ import unisinos.engsoft.taskmanager.service.interfaces.IAuthService;
 import unisinos.engsoft.taskmanager.service.interfaces.IPasswordEncryptionService;
 
 import java.util.Optional;
+
+import static unisinos.engsoft.taskmanager.mapper.UserMapper.toDTO;
 
 @Service
 @RequiredArgsConstructor
@@ -51,11 +52,9 @@ public class AuthService implements IAuthService {
         jwtCookie.setPath("/");
         response.addCookie(jwtCookie);
 
-        UserDTO userDTO = new UserDTO(user.getId(),user.getFirstName()+" "+user.getLastName());
-
         return ResponseEntity.ok()
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
-                .body(userDTO);
+                .body(toDTO(user));
     }
 
     public String getAuthenticatedUsername() {
