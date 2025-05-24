@@ -27,6 +27,7 @@ public class Users implements UserDetails
     private String lastName;
     private String email;
     private String password;
+    private boolean active;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
