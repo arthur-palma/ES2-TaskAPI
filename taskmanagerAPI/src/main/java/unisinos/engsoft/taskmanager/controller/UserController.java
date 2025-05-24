@@ -1,6 +1,7 @@
 package unisinos.engsoft.taskmanager.controller;
 
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class UserController {
     private final IUserService iUserService;
 
     @PostMapping()
-    public ResponseEntity<UserDTO> createUser(@RequestBody CreateUserRequest request){
+    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody CreateUserRequest request){
         return iUserService.createUser(request);
     }
 
