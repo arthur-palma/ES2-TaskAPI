@@ -10,6 +10,7 @@ import unisinos.engsoft.taskmanager.DTO.PutUserRequest;
 import unisinos.engsoft.taskmanager.DTO.UserDTO;
 import unisinos.engsoft.taskmanager.service.interfaces.IUserService;
 
+
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
@@ -25,7 +26,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUser(@PathVariable int id){
-        return iUserService.getUser(id);
+        return iUserService.getUserById(id);
     }
 
     @PutMapping("/{id}")
