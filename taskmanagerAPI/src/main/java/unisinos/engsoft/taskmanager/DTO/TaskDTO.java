@@ -6,6 +6,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 
 public class TaskDTO {
 
@@ -13,6 +14,6 @@ public class TaskDTO {
     private String title;
     private String description;
     private String status;
-    private int assignedTo;
+    private UserDTO assignedTo;
 
 }
