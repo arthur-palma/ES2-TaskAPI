@@ -20,10 +20,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final UserDetailsService userDetailsService;
 
-
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
         String token = request.getHeader("Authorization");
 
         try {
@@ -34,20 +34,43 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                     if (jwtUtil.validateToken(token, username)) {
-                        SecurityContextHolder.getContext().setAuthentication(
-                                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities())
-                        );
+                        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
+                                userDetails, null, userDetails.getAuthorities());
+                        SecurityContextHolder.getContext().setAuthentication(auth);
                     } else {
-                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token inválido ou expirado");
+                        sendErrorResponse(response, request, HttpServletResponse.SC_FORBIDDEN, "Invalid token");
                         return;
                     }
                 }
             }
         } catch (Exception e) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Erro ao validar token");
+            sendErrorResponse(response, request, HttpServletResponse.SC_FORBIDDEN, "Invalid token");
             return;
         }
 
         filterChain.doFilter(request, response);
+    }
+
+    private void sendErrorResponse(HttpServletResponse response,
+                                   HttpServletRequest request,
+                                   int status,
+                                   String message) throws IOException {
+        response.setStatus(status);
+        response.setContentType("application/json");
+        String json = String.format(
+                "{" +
+                        "\"timestamp\": \"%s\"," +
+                        "\"status\": %d," +
+                        "\"error\": \"%s\"," +
+                        "\"message\": \"%s\"," +
+                        "\"path\": \"%s\"" +
+                        "}",
+                java.time.OffsetDateTime.now(),
+                status,
+                (status == 403) ? "FORBIDDEN" : "UNAUTHORIZED",
+                message,
+                request.getRequestURI()
+        );
+        response.getWriter().write(json);
     }
 }
