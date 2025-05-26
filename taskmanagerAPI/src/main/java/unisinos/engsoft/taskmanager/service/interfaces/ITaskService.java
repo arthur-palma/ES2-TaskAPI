@@ -13,7 +13,7 @@ public interface ITaskService {
 
     ResponseEntity<Void> deleteTask(int id);
 
-    ResponseEntity<TaskDTO> getTaskByUserId(int id);
+    ResponseEntity<TaskDTO> getTaskById(int id);
 
     ResponseEntity<List<TaskDTO>> getTaskByUserId(Integer assignedTo);
 }
