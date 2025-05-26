@@ -41,7 +41,7 @@ public class TaskService implements ITaskService {
     }
 
     @Override
-    public ResponseEntity<TaskDTO> getTaskByUserId(int id) {
+    public ResponseEntity<TaskDTO> getTaskById(int id) {
         Task task = taskRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND,"Task not found"));
 

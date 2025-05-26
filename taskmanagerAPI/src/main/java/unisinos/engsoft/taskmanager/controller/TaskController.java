@@ -25,7 +25,7 @@ public class TaskController {
     @GetMapping("/{id}")
     public ResponseEntity<TaskDTO> getTask(@PathVariable int id)
     {
-        return iTaskService.getTaskByUserId(id);
+        return iTaskService.getTaskById(id);
     }
 
     @GetMapping
