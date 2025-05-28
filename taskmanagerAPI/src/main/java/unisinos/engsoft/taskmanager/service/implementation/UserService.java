@@ -14,6 +14,8 @@ import unisinos.engsoft.taskmanager.service.interfaces.IPasswordEncryptionServic
 import unisinos.engsoft.taskmanager.service.interfaces.IUserService;
 import unisinos.engsoft.taskmanager.service.interfaces.IUserValidation;
 
+import java.util.Optional;
+
 import static unisinos.engsoft.taskmanager.mapper.UserMapper.toDTO;
 
 @Service
@@ -54,6 +56,13 @@ public class UserService implements IUserService {
     @Override
     public ResponseEntity<UserDTO> putUser(PutUserRequest request, int id) {
         Users user = userValidation.validateUserById(id);
+        Optional<Users> userByEmail = userRepository.findByEmail(request.getEmail());
+
+        if( userByEmail.isPresent()){
+            if(user.getId() != userByEmail.get().getId()){
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "email already in use");
+            }
+        }
 
         user.setEmail(request.getEmail());
         user.setFirstName(request.getFirstName());
