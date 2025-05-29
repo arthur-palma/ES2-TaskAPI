@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+import static jakarta.persistence.GenerationType.IDENTITY;
+
 @Entity
 @Getter
 @Setter
@@ -19,7 +21,7 @@ import java.util.List;
 public class Users implements UserDetails
 {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = IDENTITY)
     private int id;
 
     private String firstName;
