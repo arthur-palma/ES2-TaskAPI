@@ -15,7 +15,7 @@
 
 ## 1. Visão Geral
 
-A API **TaskManagerAPI** é um sistema de gerenciamento de tarefas que permite a autenticação de usuários e o controle de tarefas atribuídas a cada um. Seu principal objetivo é facilitar o gerenciamento pessoal ou colaborativo de atividades, oferecendo funcionalidades como:
+- Nossa API **TaskManagerAPI** é um sistema de gerenciamento de tarefas que permite a autenticação de usuários e o controle de tarefas atribuídas a cada um. Seu principal objetivo é facilitar o gerenciamento pessoal ou colaborativo de atividades, oferecendo funcionalidades como:
 
 - Cadastro e login de usuários
 - Criação, leitura, atualização e exclusão (CRUD) de tarefas
@@ -26,15 +26,13 @@ A API **TaskManagerAPI** é um sistema de gerenciamento de tarefas que permite a
 ## 2. Decisões Arquiteturais
 
 ### Arquitetura Utilizada
-- Padrão em camadas (Controller-Service-Repository)
-- Separação entre interfaces e implementações nos serviços
+- Arquitetura em camadas, adotada por sua clareza e boa separação de responsabilidades.
+- Uso de DTOs para isolar a lógica de negócio das representações expostas pela API.
 
 ### Justificativas
-- **Spring Boot**: rápido para prototipagem e escalável para produção
-- **JWT**: oferece segurança nas requisições sem sobrecarregar o servidor com sessões
-- **Beans com `@Service` e `@Repository`**: boa organização e injeção de dependência nativa
-
----
+- Esta estrutura foi escolhida por ser adequada para projetos com pouca complexidade e academicos e por já estar alinhada com nosso conhecimento prévio.
+- **Spring Boot**: utilizado por sua facilidade e eficiencia no desenvolvimento de APIs e familiaridade prévia com o framework.
+- **JWT**: escolhido para experimentar autenticação baseada em token de forma simples, sem a complexidade de sessões.
 
 ## 3. Modelagem de Dados
 
@@ -82,7 +80,7 @@ A API **TaskManagerAPI** é um sistema de gerenciamento de tarefas que permite a
 - Java 17+
 - Spring Boot 3+
 - Maven
-- PostgreSQL ou banco relacional compatível com JPA
+- PostgreSQL 
 
 ### ⚙️ Configuração do Banco de Dados
 
@@ -97,9 +95,10 @@ CREATE DATABASE taskdb;
 2. No arquivo `application-local.properties` (dentro da pasta `resources`), configure o acesso ao banco, informando o usuário e a senha do seu PostgreSQL:
 
 ```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/taskdb
-spring.datasource.username=SEU_USUARIO
-spring.datasource.password=SUA_SENHA
+spring:
+    datasource:
+        username: SEU_USUARIO
+        password: SUA_SENHA
 ```
 
 Assim, a aplicação conseguirá se conectar ao banco corretamente.
@@ -112,8 +111,8 @@ Acesse a pasta do projeto `taskmanagerAPI` e execute os seguintes comandos:
 # Build do projeto
 mvn clean install
 
-# Executar aplicação com o perfil local
-mvn spring-boot:run -Dspring-boot.run.profiles=local
+# Executar aplicação
+mvn spring-boot:run
 ```
 
 ---
@@ -126,17 +125,6 @@ mvn spring-boot:run -Dspring-boot.run.profiles=local
 # Executar todos os testes
 mvn test
 ```
-
-### 🧪 Relatório de Cobertura (opcional)
-
-Se estiver usando **JaCoCo**, gere o relatório com:
-
-```bash
-mvn clean verify
-```
-
-O relatório estará disponível em:  
-`target/site/jacoco/index.html`
 
 ### Estratégia
 
