@@ -1,6 +1,7 @@
 package unisinos.engsoft.taskmanager.controller;
 
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,16 +26,19 @@ public class UserController {
         return iUserService.createUser(request);
     }
 
+    @SecurityRequirement(name = "bearerAuth")
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUser(@PathVariable int id){
         return iUserService.getUserById(id);
     }
 
+    @SecurityRequirement(name = "bearerAuth")
     @PutMapping("/{id}")
     public ResponseEntity<UserDTO> putUser(@RequestBody PutUserRequest request, @PathVariable int id){
         return iUserService.putUser(request, id);
     }
 
+    @SecurityRequirement(name = "bearerAuth")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable int id){
         return iUserService.deleteUser(id);

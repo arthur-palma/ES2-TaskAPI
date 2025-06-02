@@ -1,5 +1,6 @@
 package unisinos.engsoft.taskmanager.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/tasks")
 @RequiredArgsConstructor
-
+@SecurityRequirement(name = "bearerAuth")
 public class TaskController {
 
     private final ITaskService iTaskService;
