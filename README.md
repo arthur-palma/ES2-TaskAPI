@@ -58,18 +58,67 @@
 
 ### 🔐 Autenticação
 - `POST /auth/login`: Login com e-mail e senha (retorna token)
-
+#### Request Body:
+```json
+    {
+      "email": "user@email.com",
+      "password": "password"
+    }
+```
+####
 ### 👤 Usuários
 - `POST /users`: Cria novo usuário
+#### Request Body:
+ ```json
+    {
+      "firstName": "name",
+      "lastName": "lastName",
+      "email": "user@email.com",
+      "password": "password"
+    }
+ ```
 - `GET /users/{id}`: Retorna detalhes de um usuário específico
+####
 - `PUT /users/{id}`: Atualiza um usuário
+#### Request Body:
+ ```json
+    {
+      "firstName": "name",
+      "lastName": "lastName",
+      "email": "user@email.com",
+      "password": "password"
+    }
+ ```
+####
 - `DELETE /users/{id}`: Remove um usuário (soft delete)
 
 ### ✅ Tarefas
 - `POST /tasks`: Cria nova tarefa
-- `GET /tasks`: Lista todas as tarefas do usuário indicado no campo `assignedTo`
+#### Request Body:
+ ```json
+    {
+      "firstName": "name",
+      "lastName": "lastName",
+      "email": "user@email.com",
+      "password": "password"
+    }
+ ```
+####
+- `GET /tasks?assignedTo=id`: Lista todas as tarefas do usuário com id indicado no campo `assignedTo`
+####
 - `GET /tasks/{id}`: Retorna detalhes de uma tarefa específica
+####
 - `PUT /tasks/{id}`: Atualiza uma tarefa
+#### Request Body:
+ ```json
+    {
+      "title": "title",
+      "description": "description",
+      "status": "status",
+      "assignedTo": 1
+    }
+ ```
+
 - `DELETE /tasks/{id}`: Remove uma tarefa
 
 ---
