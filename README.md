@@ -92,9 +92,9 @@ Antes de rodar a aplicação, **é necessário criar o banco de dados no Postgre
 CREATE DATABASE taskdb;
 ```
 
-2. No arquivo `application-local.properties` (dentro da pasta `resources`), configure o acesso ao banco, informando o usuário e a senha do seu PostgreSQL:
+2. Crie um arquivo `application-local.yaml` (dentro da pasta `resources`), configure o acesso ao banco, informando o usuário e a senha do seu PostgreSQL:
 
-```properties
+```yaml
 spring:
     datasource:
         username: SEU_USUARIO
