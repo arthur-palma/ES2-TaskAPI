@@ -4,7 +4,6 @@ package unisinos.engsoft.taskmanager.controller;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import unisinos.engsoft.taskmanager.DTO.CreateUserRequest;
@@ -18,7 +17,6 @@ import unisinos.engsoft.taskmanager.service.interfaces.IUserService;
 @RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
     private final IUserService iUserService;
 
     @PostMapping()

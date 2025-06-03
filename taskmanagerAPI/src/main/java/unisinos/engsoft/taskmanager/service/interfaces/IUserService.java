@@ -14,6 +14,7 @@ public interface IUserService {
     ResponseEntity<UserDTO> getUserById(int id);
 
     ResponseEntity<UserDTO> putUser(PutUserRequest request, int id);
+
     ResponseEntity<Void> deleteUser(int id);
 
 }
