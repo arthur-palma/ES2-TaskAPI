@@ -52,6 +52,9 @@
 - `status`: String
 - `user`: Relacionamento `@ManyToOne` com `User`
 
+  ![image](https://github.com/user-attachments/assets/6163f970-f1dc-490c-bfa9-a3c69c4afcdf)
+
+
 ---
 
 ## 4. Fluxo de Requisições
